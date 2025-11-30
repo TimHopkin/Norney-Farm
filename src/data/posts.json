@@ -1,0 +1,16 @@
+[
+    {
+        "slug": "welcome-to-norney-farm",
+        "title": "Welcome to the New Norney Farm Website",
+        "date": "2023-10-26",
+        "excerpt": "We are excited to launch our new digital home, showcasing our journey in regenerative agriculture.",
+        "content": "Welcome to the new Norney Farm website. As we continue our journey towards regenerative agriculture, we wanted a place to share our stories, successes, and lessons learned. This site will serve as a hub for updates on our farming practices, our work with DEFRA and Surrey Wildlife Trust, and the ongoing development of the Land App. Stay tuned for more updates!"
+    },
+    {
+        "slug": "autumn-harvest-update",
+        "title": "Autumn Harvest Update",
+        "date": "2023-11-15",
+        "excerpt": "A look back at this season's harvest and what it means for our soil health goals.",
+        "content": "The autumn harvest has been completed, and we are pleased with the results. Not just in terms of yield, but in what we are seeing in the soil. Our cover cropping strategy seems to be paying off, with improved soil structure and earthworm counts. We will be sharing more detailed metrics in our upcoming resilience report."
+    }
+]

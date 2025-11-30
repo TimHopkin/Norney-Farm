@@ -1,0 +1,52 @@
+{
+    "schemes": [
+        {
+            "name": "Sustainable Farming Incentive (SFI)",
+            "description": "Our SFI journey focuses on fostering a biodiverse ecosystem while maintaining productivity. Key initiatives include grass buffer strips to prevent runoff and support wildlife, a three-year legume fallow to boost pollinators and soil health, and low-input managed grassland. We also practice traditional hay-making to encourage wildflowers.",
+            "status": "Active",
+            "image": "/images/schemes/sfi-buffer-strips.jpg",
+            "details": [
+                "Grass buffer strips for biodiversity and erosion control.",
+                "Three-year legume fallow for pollinators.",
+                "Low-input grassland management.",
+                "Traditional hay-making practices."
+            ]
+        },
+        {
+            "name": "Countryside Stewardship (Higher Tier)",
+            "description": "In partnership with Surrey Wildlife Trust, we are restoring our SSSI to a wildlife oasis through conservation grazing. We have undertaken significant ditch management and culvert replacement to enable cattle movement, ensuring the land is managed effectively for biodiversity.",
+            "status": "Active",
+            "image": "/images/schemes/cs-grazing.jpg",
+            "details": [
+                "Conservation grazing on SSSI land.",
+                "Partnership with Surrey Wildlife Trust.",
+                "Ditch management and culvert replacement.",
+                "Restoring wetland habitats."
+            ]
+        },
+        {
+            "name": "Landscape Recovery",
+            "description": "Collaborating on large-scale ecosystem restoration projects to connect habitats across the wider landscape.",
+            "status": "Planning",
+            "image": null,
+            "details": []
+        }
+    ],
+    "groups": [
+        {
+            "name": "Surrey Wildlife Trust",
+            "role": "Partner",
+            "description": "Working together to create wildlife corridors and manage conservation grazing."
+        },
+        {
+            "name": "Surrey County Council",
+            "role": "Collaborator",
+            "description": "Supporting local environmental initiatives."
+        },
+        {
+            "name": "University of Surrey",
+            "role": "Research Partner",
+            "description": "Monitoring soil health and biodiversity metrics."
+        }
+    ]
+}

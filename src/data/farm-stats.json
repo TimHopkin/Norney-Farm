@@ -1,0 +1,42 @@
+[
+    {
+        "label": "Total Area",
+        "value": "34.5",
+        "unit": "Hectares"
+    },
+    {
+        "label": "Grassland",
+        "value": "17.8",
+        "unit": "Hectares",
+        "description": "Modified and neutral grassland"
+    },
+    {
+        "label": "Woodland",
+        "value": "0.9",
+        "unit": "Hectares",
+        "description": "Mixed scrub and wet woodland"
+    },
+    {
+        "label": "Arable",
+        "value": "13.7",
+        "unit": "Hectares",
+        "description": "Legume-rich ley and crops"
+    },
+    {
+        "label": "Waterways",
+        "value": "0.3",
+        "unit": "Hectares",
+        "description": "Rivers, streams, and drains"
+    },
+    {
+        "label": "Buildings & Infrastructure",
+        "value": "0.3",
+        "unit": "Hectares"
+    },
+    {
+        "label": "Biodiversity Features",
+        "value": "45",
+        "unit": "Features",
+        "description": "Wildlife corridors, buffer strips, and habitats"
+    }
+]
