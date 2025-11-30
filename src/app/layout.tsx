@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${outfit.variable}`} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Navigation />
         <main style={{ flex: 1 }}>
