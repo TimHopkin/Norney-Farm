@@ -20,6 +20,10 @@ const GeoJSON = dynamic(
     () => import('react-leaflet').then((mod) => mod.GeoJSON),
     { ssr: false }
 );
+const LayersControl = dynamic(
+    () => import('react-leaflet').then((mod) => mod.LayersControl),
+    { ssr: false }
+);
 
 export default function FarmMap() {
     const [geoData, setGeoData] = useState<any>(null);
@@ -160,10 +164,26 @@ export default function FarmMap() {
                 style={{ height: '100%', width: '100%' }}
                 scrollWheelZoom={true}
             >
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                />
+                <LayersControl position="topright">
+                    <LayersControl.BaseLayer checked name="Street Map">
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                        />
+                    </LayersControl.BaseLayer>
+                    <LayersControl.BaseLayer name="Satellite Imagery">
+                        <TileLayer
+                            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                            attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+                        />
+                    </LayersControl.BaseLayer>
+                    <LayersControl.BaseLayer name="Terrain">
+                        <TileLayer
+                            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
+                        />
+                    </LayersControl.BaseLayer>
+                </LayersControl>
                 <GeoJSON data={geoData} style={style} onEachFeature={onEachFeature} />
             </MapContainer>
         </div>
