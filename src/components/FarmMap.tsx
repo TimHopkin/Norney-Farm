@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import proj4 from 'proj4';
+
+// Define British National Grid projection
+proj4.defs('EPSG:27700', '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs');
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(
@@ -20,19 +24,79 @@ const GeoJSON = dynamic(
 export default function FarmMap() {
     const [geoData, setGeoData] = useState<any>(null);
     const [isClient, setIsClient] = useState(false);
+    const [mapCenter, setMapCenter] = useState<[number, number]>([51.185, -0.615]);
 
     useEffect(() => {
         setIsClient(true);
         fetch('/data/farm-boundary.json')
             .then((res) => res.json())
-            .then((data) => setGeoData(data))
+            .then((data) => {
+                // Transform coordinates from EPSG:27700 to WGS84
+                const transformedData = {
+                    ...data,
+                    features: data.features.map((feature: any) => {
+                        if (feature.geometry.type === 'Polygon') {
+                            return {
+                                ...feature,
+                                geometry: {
+                                    ...feature.geometry,
+                                    coordinates: feature.geometry.coordinates.map((ring: any) =>
+                                        ring.map((coord: any) => {
+                                            const [lng, lat] = proj4('EPSG:27700', 'EPSG:4326', coord);
+                                            return [lng, lat];
+                                        })
+                                    ),
+                                },
+                            };
+                        } else if (feature.geometry.type === 'MultiPolygon') {
+                            return {
+                                ...feature,
+                                geometry: {
+                                    ...feature.geometry,
+                                    coordinates: feature.geometry.coordinates.map((polygon: any) =>
+                                        polygon.map((ring: any) =>
+                                            ring.map((coord: any) => {
+                                                const [lng, lat] = proj4('EPSG:27700', 'EPSG:4326', coord);
+                                                return [lng, lat];
+                                            })
+                                        )
+                                    ),
+                                },
+                            };
+                        } else if (feature.geometry.type === 'LineString') {
+                            return {
+                                ...feature,
+                                geometry: {
+                                    ...feature.geometry,
+                                    coordinates: feature.geometry.coordinates.map((coord: any) => {
+                                        const [lng, lat] = proj4('EPSG:27700', 'EPSG:4326', coord);
+                                        return [lng, lat];
+                                    }),
+                                },
+                            };
+                        }
+                        return feature;
+                    }),
+                };
+
+                // Calculate the center from the first feature
+                if (transformedData.features.length > 0) {
+                    const firstFeature = transformedData.features[0];
+                    if (firstFeature.geometry.type === 'Polygon') {
+                        const firstCoord = firstFeature.geometry.coordinates[0][0];
+                        setMapCenter([firstCoord[1], firstCoord[0]]); // [lat, lng]
+                    }
+                }
+
+                setGeoData(transformedData);
+            })
             .catch((err) => console.error('Failed to load farm data:', err));
     }, []);
 
     if (!isClient || !geoData) {
         return (
             <div style={{
-                height: '400px',
+                height: '500px',
                 backgroundColor: '#f5f5f5',
                 display: 'flex',
                 alignItems: 'center',
@@ -46,31 +110,32 @@ export default function FarmMap() {
 
     const getColor = (feature: any) => {
         const type = feature.properties?.laCodeName || '';
-        if (type.includes('grassland')) return '#8bc34a';
+        if (type.includes('grassland') || type.includes('Grassland')) return '#8bc34a';
         if (type.includes('woodland') || type.includes('scrub')) return '#4caf50';
         if (type.includes('ley') || type.includes('crop')) return '#ffc107';
-        if (type.includes('river') || type.includes('stream')) return '#2196f3';
-        if (type.includes('Building')) return '#9e9e9e';
+        if (type.includes('river') || type.includes('stream') || type.includes('Water')) return '#2196f3';
+        if (type.includes('Building') || type.includes('Developed')) return '#9e9e9e';
         return '#cddc39';
     };
 
     const style = (feature: any) => ({
         fillColor: getColor(feature),
-        weight: 1,
+        weight: 2,
         opacity: 1,
         color: 'white',
-        fillOpacity: 0.6,
+        fillOpacity: 0.7,
     });
 
     const onEachFeature = (feature: any, layer: any) => {
         if (feature.properties) {
-            const { laCodeName, name, area } = feature.properties;
+            const { laCodeName, name, area, description } = feature.properties;
             const areaHa = area ? (area / 10000).toFixed(2) : 'N/A';
             layer.bindPopup(`
-        <div style="font-family: var(--font-inter);">
-          <strong>${laCodeName || 'Feature'}</strong><br/>
-          ${name ? `Name: ${name}<br/>` : ''}
-          Area: ${areaHa} ha
+        <div style="font-family: var(--font-inter); min-width: 200px;">
+          <strong style="font-size: 1.1rem; color: var(--color-primary);">${laCodeName || 'Feature'}</strong><br/>
+          ${name ? `<strong>Name:</strong> ${name}<br/>` : ''}
+          <strong>Area:</strong> ${areaHa} hectares<br/>
+          ${description ? `<em>${description}</em>` : ''}
         </div>
       `);
         }
@@ -78,7 +143,7 @@ export default function FarmMap() {
 
     return (
         <div style={{
-            height: '400px',
+            height: '500px',
             borderRadius: 'var(--radius-md)',
             overflow: 'hidden',
             boxShadow: 'var(--shadow-md)'
@@ -90,9 +155,10 @@ export default function FarmMap() {
                 crossOrigin=""
             />
             <MapContainer
-                center={[51.185, -0.615]}
+                center={mapCenter}
                 zoom={15}
                 style={{ height: '100%', width: '100%' }}
+                scrollWheelZoom={true}
             >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
