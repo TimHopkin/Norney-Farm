@@ -20,15 +20,12 @@ const GeoJSON = dynamic(
     () => import('react-leaflet').then((mod) => mod.GeoJSON),
     { ssr: false }
 );
-const LayersControl = dynamic(
-    () => import('react-leaflet').then((mod) => mod.LayersControl),
-    { ssr: false }
-);
 
 export default function FarmMap() {
     const [geoData, setGeoData] = useState<any>(null);
     const [isClient, setIsClient] = useState(false);
     const [mapCenter, setMapCenter] = useState<[number, number]>([51.185, -0.615]);
+    const [showSatellite, setShowSatellite] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
@@ -146,46 +143,78 @@ export default function FarmMap() {
     };
 
     return (
-        <div style={{
-            height: '500px',
-            borderRadius: 'var(--radius-md)',
-            overflow: 'hidden',
-            boxShadow: 'var(--shadow-md)'
-        }}>
-            <link
-                rel="stylesheet"
-                href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-                integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-                crossOrigin=""
-            />
-            <MapContainer
-                center={mapCenter}
-                zoom={15}
-                style={{ height: '100%', width: '100%' }}
-                scrollWheelZoom={true}
-            >
-                <LayersControl position="topright">
-                    <LayersControl.BaseLayer checked name="Street Map">
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                        />
-                    </LayersControl.BaseLayer>
-                    <LayersControl.BaseLayer name="Satellite Imagery">
+        <div>
+            <div style={{
+                marginBottom: '1rem',
+                display: 'flex',
+                gap: '1rem',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+            }}>
+                <button
+                    onClick={() => setShowSatellite(false)}
+                    style={{
+                        padding: '0.75rem 1.5rem',
+                        backgroundColor: !showSatellite ? 'var(--color-primary)' : 'white',
+                        color: !showSatellite ? 'white' : 'var(--color-text)',
+                        border: '2px solid var(--color-primary)',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease',
+                    }}
+                >
+                    🗺️ Street Map
+                </button>
+                <button
+                    onClick={() => setShowSatellite(true)}
+                    style={{
+                        padding: '0.75rem 1.5rem',
+                        backgroundColor: showSatellite ? 'var(--color-primary)' : 'white',
+                        color: showSatellite ? 'white' : 'var(--color-text)',
+                        border: '2px solid var(--color-primary)',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease',
+                    }}
+                >
+                    🛰️ Satellite View
+                </button>
+            </div>
+
+            <div style={{
+                height: '500px',
+                borderRadius: 'var(--radius-md)',
+                overflow: 'hidden',
+                boxShadow: 'var(--shadow-md)'
+            }}>
+                <link
+                    rel="stylesheet"
+                    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+                    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+                    crossOrigin=""
+                />
+                <MapContainer
+                    center={mapCenter}
+                    zoom={15}
+                    style={{ height: '100%', width: '100%' }}
+                    scrollWheelZoom={true}
+                >
+                    {showSatellite ? (
                         <TileLayer
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                             attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
                         />
-                    </LayersControl.BaseLayer>
-                    <LayersControl.BaseLayer name="Terrain">
+                    ) : (
                         <TileLayer
-                            url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://opentopomap.org">OpenTopoMap</a>'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         />
-                    </LayersControl.BaseLayer>
-                </LayersControl>
-                <GeoJSON data={geoData} style={style} onEachFeature={onEachFeature} />
-            </MapContainer>
+                    )}
+                    <GeoJSON data={geoData} style={style} onEachFeature={onEachFeature} />
+                </MapContainer>
+            </div>
         </div>
     );
 }
