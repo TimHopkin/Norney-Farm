@@ -1,6 +1,7 @@
 import Section from "@/components/Section";
 import FarmMap from "@/components/FarmMap";
 import FarmDashboard from "@/components/FarmDashboard";
+import EPCResilience from "@/components/EPCResilience";
 
 export default function FarmPage() {
     return (
@@ -22,6 +23,10 @@ export default function FarmPage() {
 
                     <h2 style={{ marginBottom: '2rem', textAlign: 'center' }}>Farm Statistics</h2>
                     <FarmDashboard />
+
+                    <div style={{ marginTop: '4rem' }}>
+                        <EPCResilience />
+                    </div>
 
                     <div style={{ marginTop: '4rem' }}>
                         <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Interactive Farm Map</h2>

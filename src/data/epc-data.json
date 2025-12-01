@@ -1,0 +1,307 @@
+{
+    "overview": {
+        "score": 46.4,
+        "rating": "E",
+        "description": "The Ecological Performance Coefficient (EPC) measures the farm's resilience across habitat diversity, connectivity, and landscape integration."
+    },
+    "habitats": [
+        {
+            "id": "crop_management",
+            "name": "Crop Management",
+            "score": 67.9,
+            "rating": "D"
+        },
+        {
+            "id": "non_crop_features",
+            "name": "Non-crop Features",
+            "score": 0.0,
+            "rating": "G"
+        },
+        {
+            "id": "woodland_scrub",
+            "name": "Woodland & Scrub",
+            "score": 46.4,
+            "rating": "E"
+        },
+        {
+            "id": "heathland_grassland",
+            "name": "Heathland & Species Rich Grassland",
+            "score": 50.0,
+            "rating": "E"
+        },
+        {
+            "id": "wetland",
+            "name": "Wetland",
+            "score": 0.0,
+            "rating": "G"
+        },
+        {
+            "id": "water_bodies",
+            "name": "Water-bodies",
+            "score": 46.4,
+            "rating": "E"
+        }
+    ],
+    "metrics": [
+        {
+            "category": "BIGGER",
+            "categoryDescription": "Larger habitat areas and patches support more biodiversity",
+            "items": [
+                {
+                    "metric": "Area in hectares",
+                    "key": "area_ha",
+                    "values": {
+                        "crop_management": 13.7,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.4,
+                        "heathland_grassland": 1.4,
+                        "wetland": null,
+                        "water_bodies": 0.0
+                    }
+                },
+                {
+                    "metric": "Habitat area as percentage of total farm area",
+                    "key": "perc_cover",
+                    "values": {
+                        "crop_management": 40.4,
+                        "non_crop_features": null,
+                        "woodland_scrub": 1.2,
+                        "heathland_grassland": 4.2,
+                        "wetland": null,
+                        "water_bodies": 0.1
+                    }
+                },
+                {
+                    "metric": "Average habitat patch size in hectares",
+                    "key": "av_patch_ha",
+                    "values": {
+                        "crop_management": 13.7,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.0,
+                        "heathland_grassland": 0.7,
+                        "wetland": null,
+                        "water_bodies": 0.0
+                    }
+                },
+                {
+                    "metric": "Number of patches",
+                    "key": "n_patches",
+                    "values": {
+                        "crop_management": 1,
+                        "non_crop_features": null,
+                        "woodland_scrub": 3,
+                        "heathland_grassland": 2,
+                        "wetland": null,
+                        "water_bodies": 7
+                    }
+                },
+                {
+                    "metric": "Number of habitat patches per hectare of total farm area",
+                    "key": "n_patches_per_ha",
+                    "values": {
+                        "crop_management": 0.03,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.09,
+                        "heathland_grassland": 0.06,
+                        "wetland": null,
+                        "water_bodies": 0.21
+                    }
+                }
+            ]
+        },
+        {
+            "category": "BETTER",
+            "categoryDescription": "Greater habitat diversity within each habitat type",
+            "items": [
+                {
+                    "metric": "Shannon diversity of habitat subtypes",
+                    "key": "shannon_intra_diversity",
+                    "values": {
+                        "crop_management": 0.0,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.5,
+                        "heathland_grassland": 0.0,
+                        "wetland": null,
+                        "water_bodies": 0.4
+                    }
+                },
+                {
+                    "metric": "Shannon equitability of habitat subtypes",
+                    "key": "shannon_intra_equitability",
+                    "values": {
+                        "crop_management": 0.0,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.4,
+                        "heathland_grassland": 0.0,
+                        "wetland": null,
+                        "water_bodies": 0.5
+                    }
+                },
+                {
+                    "metric": "Simpson diversity of habitat subtypes",
+                    "key": "simp_intra_diversity",
+                    "values": {
+                        "crop_management": 0.00,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.23,
+                        "heathland_grassland": 0.00,
+                        "wetland": null,
+                        "water_bodies": 0.20
+                    }
+                },
+                {
+                    "metric": "Length of internal edge per hectare of habitat",
+                    "key": "internal_edge",
+                    "values": {
+                        "crop_management": 0.0,
+                        "non_crop_features": null,
+                        "woodland_scrub": 0.0,
+                        "heathland_grassland": 0.0,
+                        "wetland": null,
+                        "water_bodies": 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "category": "MORE JOINED UP",
+            "categoryDescription": "Better habitat connectivity enhances species movement and ecosystem resilience",
+            "items": [
+                {
+                    "metric": "Average distance to core (largest) habitat patch",
+                    "key": "av_dist_to_core",
+                    "values": {
+                        "crop_management": null,
+                        "non_crop_features": null,
+                        "woodland_scrub": 44.0,
+                        "heathland_grassland": 0.5,
+                        "wetland": null,
+                        "water_bodies": 43.7
+                    }
+                },
+                {
+                    "metric": "Average distance from a habitat patch to its nearest neighbour",
+                    "key": "av_dist_to_nearest",
+                    "values": {
+                        "crop_management": 0.0,
+                        "non_crop_features": null,
+                        "woodland_scrub": 12.5,
+                        "heathland_grassland": 0.5,
+                        "wetland": null,
+                        "water_bodies": 3.0
+                    }
+                },
+                {
+                    "metric": "Average distance to 3 neighbouring habitat patches",
+                    "key": "av_dist_to_neighbours",
+                    "values": {
+                        "crop_management": null,
+                        "non_crop_features": null,
+                        "woodland_scrub": 66.6,
+                        "heathland_grassland": 0.5,
+                        "wetland": null,
+                        "water_bodies": 68.9
+                    }
+                },
+                {
+                    "metric": "Average interpatch distance",
+                    "key": "av_dist_to_all",
+                    "values": {
+                        "crop_management": null,
+                        "non_crop_features": null,
+                        "woodland_scrub": 75.5,
+                        "heathland_grassland": 0.5,
+                        "wetland": null,
+                        "water_bodies": 118.4
+                    }
+                },
+                {
+                    "metric": "Average distance of all land to nearest habitat patch",
+                    "key": "av_dist_land_to_habitat",
+                    "values": {
+                        "crop_management": 81.5,
+                        "non_crop_features": null,
+                        "woodland_scrub": 447.1,
+                        "heathland_grassland": 534.0,
+                        "wetland": null,
+                        "water_bodies": 510.8
+                    }
+                }
+            ]
+        }
+    ],
+    "scoring": {
+        "criteria": [
+            {
+                "id": 1,
+                "name": "Area",
+                "scores": {
+                    "crop_management": 4,
+                    "woodland_scrub": 2,
+                    "heathland_grassland": 3,
+                    "water_bodies": 1
+                }
+            },
+            {
+                "id": 2,
+                "name": "Patch size",
+                "scores": {
+                    "crop_management": 4,
+                    "woodland_scrub": 2,
+                    "heathland_grassland": 3,
+                    "water_bodies": 1
+                }
+            },
+            {
+                "id": 3,
+                "name": "Patch number",
+                "scores": {
+                    "crop_management": 1,
+                    "woodland_scrub": 3,
+                    "heathland_grassland": 2,
+                    "water_bodies": 4
+                }
+            },
+            {
+                "id": 4,
+                "name": "Intra-habitat diversity",
+                "scores": {
+                    "crop_management": 1,
+                    "woodland_scrub": 2,
+                    "heathland_grassland": 1,
+                    "water_bodies": 2
+                }
+            },
+            {
+                "id": 5,
+                "name": "Internal edge length",
+                "scores": {
+                    "crop_management": 1,
+                    "woodland_scrub": 1,
+                    "heathland_grassland": 1,
+                    "water_bodies": 1
+                }
+            },
+            {
+                "id": 6,
+                "name": "Inter-patch nearest",
+                "scores": {
+                    "crop_management": 4,
+                    "woodland_scrub": 1,
+                    "heathland_grassland": 3,
+                    "water_bodies": 3
+                }
+            },
+            {
+                "id": 7,
+                "name": "Extra patch nearest",
+                "scores": {
+                    "crop_management": 4,
+                    "woodland_scrub": 2,
+                    "heathland_grassland": 1,
+                    "water_bodies": 1
+                }
+            }
+        ]
+    }
+}

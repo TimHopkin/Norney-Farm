@@ -20,11 +20,16 @@ const GeoJSON = dynamic(
     () => import('react-leaflet').then((mod) => mod.GeoJSON),
     { ssr: false }
 );
+const MapRecenter = dynamic(
+    () => import('./MapRecenter'),
+    { ssr: false }
+);
 
 export default function FarmMap() {
     const [geoData, setGeoData] = useState<any>(null);
     const [isClient, setIsClient] = useState(false);
-    const [mapCenter, setMapCenter] = useState<[number, number]>([51.185, -0.615]);
+    const [mapBounds, setMapBounds] = useState<[[number, number], [number, number]] | null>(null);
+    const [recenterTrigger, setRecenterTrigger] = useState(0);
     const [showSatellite, setShowSatellite] = useState(false);
 
     useEffect(() => {
@@ -80,13 +85,36 @@ export default function FarmMap() {
                     }),
                 };
 
-                // Calculate the center from the first feature
-                if (transformedData.features.length > 0) {
-                    const firstFeature = transformedData.features[0];
-                    if (firstFeature.geometry.type === 'Polygon') {
-                        const firstCoord = firstFeature.geometry.coordinates[0][0];
-                        setMapCenter([firstCoord[1], firstCoord[0]]); // [lat, lng]
+                // Calculate bounds
+                let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+
+                const processCoord = (lng: number, lat: number) => {
+                    if (lat < minLat) minLat = lat;
+                    if (lat > maxLat) maxLat = lat;
+                    if (lng < minLng) minLng = lng;
+                    if (lng > maxLng) maxLng = lng;
+                };
+
+                transformedData.features.forEach((feature: any) => {
+                    if (feature.geometry.type === 'Polygon') {
+                        feature.geometry.coordinates.forEach((ring: any) =>
+                            ring.forEach((coord: any) => processCoord(coord[0], coord[1]))
+                        );
+                    } else if (feature.geometry.type === 'MultiPolygon') {
+                        feature.geometry.coordinates.forEach((polygon: any) =>
+                            polygon.forEach((ring: any) =>
+                                ring.forEach((coord: any) => processCoord(coord[0], coord[1]))
+                            )
+                        );
+                    } else if (feature.geometry.type === 'LineString') {
+                        feature.geometry.coordinates.forEach((coord: any) =>
+                            processCoord(coord[0], coord[1])
+                        );
                     }
+                });
+
+                if (minLat !== 90) {
+                    setMapBounds([[minLat, minLng], [maxLat, maxLng]]);
                 }
 
                 setGeoData(transformedData);
@@ -181,6 +209,24 @@ export default function FarmMap() {
                 >
                     🛰️ Satellite View
                 </button>
+                <button
+                    onClick={() => setRecenterTrigger(prev => prev + 1)}
+                    style={{
+                        padding: '0.75rem 1.5rem',
+                        backgroundColor: 'white',
+                        color: 'var(--color-text)',
+                        border: '2px solid var(--color-primary)',
+                        borderRadius: 'var(--radius-md)',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                    }}
+                >
+                    🎯 Re-centre
+                </button>
             </div>
 
             <div style={{
@@ -196,11 +242,12 @@ export default function FarmMap() {
                     crossOrigin=""
                 />
                 <MapContainer
-                    center={mapCenter}
+                    center={[51.185, -0.615]} // Default center, will be overridden by MapRecenter
                     zoom={15}
                     style={{ height: '100%', width: '100%' }}
                     scrollWheelZoom={true}
                 >
+                    <MapRecenter bounds={mapBounds} trigger={recenterTrigger} />
                     {showSatellite ? (
                         <TileLayer
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
